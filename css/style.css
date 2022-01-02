@@ -4,20 +4,49 @@
 
 body {
   background-color: #03041f;
+}
+
+.info {
+  height: 40px;
+  color: white;
   display: flex;
   justify-content: center;
-  margin-top: 40px;
+  font-size: 30px;
+  list-style: none;
+  font-family: "Orbitron", sans-serif;
+}
+
+.reset {
+  background-color: rgb(240, 102, 102);
+  padding: 0px 5px 0px 5px;
+  border-radius: 5px;
+  border: solid 2px white;
+  cursor: pointer;
+}
+
+.reset:hover {
+  background-color: red;
+}
+
+.info li {
+  margin-left: 50px;
+  margin-right: 50px;
 }
 
 .guia {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
   display: grid;
   grid-template-columns: repeat(6, 9vw);
-  column-gap: 20px;
-  row-gap: 20px;
+  column-gap: 12.5px;
+  row-gap: 25px;
 }
+
 .contenedor {
   display: inline-block;
-  height: 13vw;
+  height: 12vw;
+  width: 8vw;
   background-color: rgb(119, 65, 0);
   border-radius: 5px;
   border: solid rgb(187, 144, 144);
@@ -32,11 +61,11 @@ body {
 
 .tapa {
   background-color: rgb(105, 171, 197);
-  width: 9vw;
-  height: 13vw;
+  width: 8vw;
+  height: 12vw;
   position: absolute;
   color: white;
-  font-size: 12vw;
+  font-size: 10vw;
   text-align: center;
   display: inline-block;
   border: solid white;
@@ -45,11 +74,11 @@ body {
 
 .tapa2 {
   background-color: rgb(105, 171, 197);
-  width: 9vw;
-  height: 13vw;
+  width: 8vw;
+  height: 12vw;
   position: absolute;
   color: white;
-  font-size: 12vw;
+  font-size: 10vw;
   text-align: center;
   display: none;
 }
@@ -68,5 +97,5 @@ body {
 
 .contenedor__text {
   color: white;
-  font-size: 3.5vw;
+  font-size: 3vw;
 }

@@ -1,7 +1,9 @@
 const $template = document.getElementById("card").content
 const $fragmento = document.createDocumentFragment()
 const $guia = document.querySelector("#guia")
+const $reiniciar = document.querySelector(".reset")
 const cajaPares = []
+let inicio = false
 
 const hablar = (texto) => speechSynthesis.
 speak(new SpeechSynthesisUtterance(texto));
@@ -28,7 +30,7 @@ const voltear = (e)=>{
     console.log(e.target)
     let $carta = e.target
     console.log($carta.id)
-    if($carta.id == "tapa"){
+    if(e.target.matches("#tapa")){//valida si contienen el selector indicado
         $carta.classList.toggle("tapa2")
         let $ctext = $carta.parentElement.querySelector(".contenedor__text")
         hablar($ctext.innerHTML)
@@ -36,65 +38,78 @@ const voltear = (e)=>{
     }
 }
 
-let cardContent = [
-{
-    num:"1",
-    text:"uno",
-    cont:0
-},
-{
-    num:"2",
-    text:"dos",
-    cont:0
-},
-{
-    num:"3",
-    text:"tres",
-    cont:0
-},
-{
-    num:"4",
-    text:"cuatro",
-    cont:0
-},
-{
-    num:"5",
-    text:"cinco",
-    cont:0
-},
-{
-    num:"6",
-    text:"seis",
-    cont:0
-},
-{
-    num:"7",
-    text:"siete",
-    cont:0
-},
-{
-    num:"8",
-    text:"ocho",
-    cont:0
-},
-{
-    num:"9",
-    text:"nueve",
-    cont:0
-}
+let cardBase = [
+    {
+        num:"1",
+        text:"uno",
+        cont:0
+    },
+    {
+        num:"2",
+        text:"dos",
+        cont:0
+    },
+    {
+        num:"3",
+        text:"tres",
+        cont:0
+    },
+    {
+        num:"4",
+        text:"cuatro",
+        cont:0
+    },
+    {
+        num:"5",
+        text:"cinco",
+        cont:0
+    },
+    {
+        num:"6",
+        text:"seis",
+        cont:0
+    },
+    {
+        num:"7",
+        text:"siete",
+        cont:0
+    },
+    {
+        num:"8",
+        text:"ocho",
+        cont:0
+    },
+    {
+        num:"9",
+        text:"nueve",
+        cont:0
+    }
 ]
+
+let cardContent = []
 
 const aleatorio =(max) => {
     let num = Math.floor(Math.random() * ((max+1) - 0) + 0);
     return num
 }
 
-const salioDeNuevo = (num) => (cardContent[num].cont==1)
+const limpiar = ()=>{
+    let $cartas = document.querySelectorAll(".contenedor")
+    $cartas.forEach(
+        (carta) =>{
+            $guia.removeChild(carta)
+        }
+    )
+}
 
+const salioDeNuevo = (num) => (cardContent[num].cont==1);
 
 const barajar = () =>{
+    cardContent = cardBase.slice()
+    console.log(cardContent)
     for(i = 0;i < 18;i++){
         numero = aleatorio(cardContent.length-1)
+        console.log(cardContent)
         $template.querySelector(".contenedor__number").innerHTML = cardContent[numero].num
         $template.querySelector(".contenedor__text").innerHTML = cardContent[numero].text
         if(salioDeNuevo(numero)){
@@ -106,8 +121,19 @@ const barajar = () =>{
         let $clon = document.importNode($template,true)
         $fragmento.appendChild($clon) 
     }
+    cardBase.forEach(
+        (posicion)=>{
+           posicion.cont= 0 
+        }
+    )
+    if(inicio){
+        limpiar()
+    }
+    $guia.appendChild($fragmento)
+    $guia.addEventListener("click",voltear)
+    inicio = true
 }
-barajar();
-$guia.appendChild($fragmento)
-$guia.addEventListener("click",voltear,true)
+
+barajar()
+$reiniciar.addEventListener("click",barajar)
 
