@@ -3,34 +3,52 @@ const $fragmento = document.createDocumentFragment()
 const $guia = document.querySelector("#guia")
 const $reiniciar = document.querySelector(".reset")
 const cajaPares = []
+const movimientos = document.querySelector(".pmovimiento")
+let pmovimientos
+const pares = document.querySelector(".npares")
+let npares
 let inicio = false
+
 
 const hablar = (texto) => speechSynthesis.
 speak(new SpeechSynthesisUtterance(texto));
 
+const actualizarMarcador = () =>{
+    movimientos.innerHTML = pmovimientos
+    pares.innerHTML = npares
+}
+
 const validarPares = (elemento) =>{
     cajaPares.push(elemento)
 
-    if(cajaPares.length === 2){
+    if(cajaPares.length === 2){//opera cuando tenemos dos cartas en la pila
+        $guia.removeEventListener("click",voltear)
         let $carta2 = cajaPares.pop()
         let $carta1 = cajaPares.pop()
         let numCarta1 = $carta1.parentElement.querySelector(".contenedor__number").innerHTML
         let numCarta2 = $carta2.parentElement.querySelector(".contenedor__number").innerHTML
         if(numCarta1 != numCarta2){
-            setTimeout(()=>{
+            setTimeout(()=>{//tiempo de espera para volver a esconder las cartas
                 $carta1.classList.toggle("tapa2")
-                $carta2.classList.toggle("tapa2") 
-            },1200)
-            
+                $carta2.classList.toggle("tapa2")
+                $guia.addEventListener("click",voltear) 
+            },1300)    
+        }
+        else{
+            npares--
+            actualizarMarcador()
+            setTimeout(()=>{//tiempo de espera para volver a esconder las cartas
+                $guia.addEventListener("click",voltear) 
+            },1300)
         }
     }
 }
 
 const voltear = (e)=>{
-    console.log(e.target)
     let $carta = e.target
-    console.log($carta.id)
     if(e.target.matches("#tapa")){//valida si contienen el selector indicado
+        pmovimientos++;
+        actualizarMarcador()
         $carta.classList.toggle("tapa2")
         let $ctext = $carta.parentElement.querySelector(".contenedor__text")
         hablar($ctext.innerHTML)
@@ -105,6 +123,9 @@ const limpiar = ()=>{
 const salioDeNuevo = (num) => (cardContent[num].cont==1);
 
 const barajar = () =>{
+    npares = 9
+    pmovimientos = 0
+    actualizarMarcador()
     cardContent = cardBase.slice()
     console.log(cardContent)
     for(i = 0;i < 18;i++){
