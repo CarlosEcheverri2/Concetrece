@@ -10,6 +10,7 @@ let npares
 let inicio = false
 
 
+
 const hablar = (texto) => speechSynthesis.
 speak(new SpeechSynthesisUtterance(texto));
 
